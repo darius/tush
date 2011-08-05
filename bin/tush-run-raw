@@ -12,10 +12,11 @@
 
 awk '
         BEGIN {
-          mktemp = "mktemp /tmp/tush.XXXXXX /tmp/tush.XXXXXX"
-          mktemp | getline capture_out
-          mktemp | getline capture_err
-          close(mktemp)
+# XXX commented version worked on OS x. TODO find a unified portable way.
+#          mktemp = "mktemp /tmp/tush.XXXXXX /tmp/tush.XXXXXX"
+          mktemp = "mktemp"
+          mktemp | getline capture_out; close(mktemp)
+          mktemp | getline capture_err; close(mktemp)
         }
 
         /^[|@?] /       { next }        # Skip old output.
@@ -25,6 +26,7 @@ awk '
         /^[$] /         { printf "%s", run(substr($0, 3)) }
 
         END {
+# XXX more safeguards before this rm?
           system("rm -f " capture_out " " capture_err)
         }
 

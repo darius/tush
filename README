@@ -1,4 +1,4 @@
-tush -- a literate testing shell
+# tush -- a literate testing shell
 
 This is sort of a doctest for shellscripts. There are two major pluses:
 
@@ -14,20 +14,22 @@ means fewer tests get written. After I started a project involving
 lots of command-line programs I wrote tush instead.
 
 
-To install it:
+## To install it:
 
 Copy bin/* from this directory to somewhere in your PATH.
 
 
-To use it:
+## To use it:
 
 Tush looks for transcript-like lines in a file and checks them. For
 example:
 
+```sh
 $ echo Hello world
 | Hello world
+```
 
-If you run 'tush-check README' (where README is this file), it notices
+If you run `tush-check README` (where README is this file), it notices
 the above two lines, executes 'echo Hello world', and checks that
 'Hello world' comes out on the standard output. Assuming the test
 passes, running tush-check succeeds silently. A failing test makes
@@ -36,10 +38,12 @@ tush-check fail and output a diff.
 You aren't limited to invoking the program under test; setup,
 clean-up, checking, etc., work the same way:
 
+```sh
 $ echo  >test.in 'here is some test input'
 $ echo >>test.in 'and here is some more'
 $ sort test.in | wc -l  # Check: sorting should not change the linecount.
 |        2
+```
 
 We didn't bother to rm test.in afterwards because we have a crude kind
 of test isolation already: Tush makes a new temporary directory named
@@ -49,15 +53,17 @@ deletes it.
 What about checking commands that should fail? There are two more
 special prefixes. For example:
 
+```sh
 $ cat nonesuch
 @ cat: nonesuch: No such file or directory
 ? 1
+```
 
 The '@ ' line is like '| ', only for standard error instead of standard
 output. The '? ' line shows a nonzero exit status.
 
 
-Tools:
+## Tools:
 
 tush-check was introduced above. It calls tush-run, which runs
 tush-run-raw from within a temporary tush-scratch directory. 
@@ -76,26 +82,26 @@ tush-run. Use this when your program is correct but your test is
 wrong.
 
 
-Examples:
+## Examples
 
 See the *.tush files in this directory. They're a kind of self-check
 of the Tush implementation, though a weak one, since implementing
 tush-run as 'cat' would pass it.  [XXX do something about that?]
 
 
-Emacs mode:
+## Emacs mode
 
 tush.el lets you pass the file you're editing through tush-run with a
 single keystroke. This can go nicely with interactive development
 combining unit tests with the code under test.
 
 
-Alternatives:
+## Alternatives
 
 Why not more like UpDoc or doctest?  [TODO: explain]
 
 
-Credits:
+## Credits:
 
 Darius Bacon <darius@wry.me>
 

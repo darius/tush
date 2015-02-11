@@ -10,11 +10,11 @@
 # silly sh script that just invokes awk. But every variant of that
 # that I've tried breaks on some system or other.
 
-awk '
+awk -v TMPDIR="${TMPDIR:-/tmp}" '
         BEGIN {
-# XXX commented version worked on OS x. TODO find a unified portable way.
-#          mktemp = "mktemp /tmp/tush.XXXXXX /tmp/tush.XXXXXX"
-          mktemp = "mktemp"
+          sub(/\/$/, "" TMPDIR)
+
+          mktemp = "mktemp " TMPDIR "/tush.XXXXXX"
           mktemp | getline capture_out; close(mktemp)
           mktemp | getline capture_err; close(mktemp)
         }

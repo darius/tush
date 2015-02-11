@@ -8,7 +8,7 @@ output=tush-output
 
 for f in "$@"
 do
-    (tush-run ${f} >$output && diff -u ${f} $output) || exit 1
+    (tush-run ${f} >$output && diff -b -u ${f} $output) || exit 1
 done
 
 rm -f $output

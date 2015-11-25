@@ -12,11 +12,10 @@
 
 awk '
         BEGIN {
-# XXX commented version worked on OS x. TODO find a unified portable way.
-#          mktemp = "mktemp /tmp/tush.XXXXXX /tmp/tush.XXXXXX"
-          mktemp = "mktemp"
-          mktemp | getline capture_out; close(mktemp)
-          mktemp | getline capture_err; close(mktemp)
+          mktemp_out = "mktemp /tmp/tush.XXXXXX"
+          mktemp_out | getline capture_out; close(mktemp_out)
+          mktemp_err = "mktemp /tmp/tush.XXXXXX"
+          mktemp_err | getline capture_err; close(mktemp_err)
         }
 
         /^[|@?] /       { next }        # Skip old output.
